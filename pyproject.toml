@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "aiogram-crypto-bot"
+version = "0.1.0"
+description = "telegram bot for checking cryptocurrencies(bitcoin, ethereum) current exchange rates in USD"
+authors = ["amozebus <amozebus@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+aiogram = "^3.6.0"
+pydantic-settings = "^2.2.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
