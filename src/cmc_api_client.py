@@ -12,13 +12,7 @@ class CMCAPIClient:
             json = await response.json()
 
             return json['data']
-        
-    async def get_cc_quotes(self, cmc_id: int):
-        return await self.get_data(
-            path="/v2/cryptocurrency/quotes/latest",
-            params={'id': cmc_id}
-        )
-
+    
     async def close_session(self):
         await self._session.connector.close()
         await self._session.close()

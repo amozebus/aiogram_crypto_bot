@@ -1,22 +1,28 @@
 from aiogram import Router, F
-from aiogram.types import Message, CallbackQuery
 from aiogram.filters.command import CommandStart
+from aiogram.types import Message, CallbackQuery
 
-from menu import get_menu
+from menu import menu
+from currency import currencies
 
 r = Router()
 
 @r.message(CommandStart())
 async def h_start(message: Message):
-    kb = await get_menu()
+    await menu(message)
 
-    await message.reply_photo(
-        photo="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRqV2LLzNbLJmSOuDJ-9VrVKSD6Xk3AP8szig&s",
-        caption="current cryptocurrencies price in *USD*, data from [CoinMarketCap](https://coinmarketcap.com/)",
-        reply_markup=kb)
+@r.callback_query(F.data == 'bitcoin')
+async def h_btc(callback: CallbackQuery):
+    await currencies[0].periods_menu(callback.message)
+
+@r.callback_query(F.data == 'ethereum')
+async def h_eth(callback: CallbackQuery):
+    await currencies[1].periods_menu(callback.message)
+
+@r.callback_query(F.data == 'back')
+async def h_reload(callback: CallbackQuery):
+    await menu(callback.message, back=True)
 
 @r.callback_query(F.data == 'rel')
 async def h_reload(callback: CallbackQuery):
-    kb = await get_menu()
-
-    await callback.message.edit_reply_markup(reply_markup=kb)
+    await menu(callback.message, reload=True)

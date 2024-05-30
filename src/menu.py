@@ -1,33 +1,48 @@
-from aiogram.types import InlineKeyboardButton
 from aiogram.utils.keyboard import InlineKeyboardBuilder
+from aiogram.types import Message, InlineKeyboardButton, InputMediaPhoto
 
 from config import settings
 from cmc_api_client import CMCAPIClient
+from currency import currencies, rounded, update_currencies
 
-cmc_ids = {
-    'btc': 1,
-    'eth': 1027
-}
+caption="current cryptocurrencies price in *USD*(data from [CoinMarketCap](https://coinmarketcap.com/))\n"\
+"to get percentage price changing in periods tap to choosed currency button"
+image = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRqV2LLzNbLJmSOuDJ-9VrVKSD6Xk3AP8szig&s"
 
-def get_btn_text(cmc_id: int, quotes: dict):
-    return f"{quotes[str(cmc_id)]['name']}: {round(quotes[str(cmc_id)]['quote']['USD']['price'], 2)}$"
-
-async def get_menu():
-    client = CMCAPIClient(api_key=settings.CMC_API_KEY)
-
-    btc_data = await client.get_cc_quotes(cmc_ids['btc'])
-    eth_data = await client.get_cc_quotes(cmc_ids['eth'])
-    await client.close_session()
+async def menu(message: Message, reload: bool = False, back: bool = False):
+    client = CMCAPIClient(settings.CMC_API_KEY)
+    
+    if reload:
+        await update_currencies()
 
     kb = InlineKeyboardBuilder()
+    for currency in currencies:
+        kb.row(
+            InlineKeyboardButton(
+                text=f"{currency.name}: {rounded(currency.quote['USD']['price'])}$",
+                callback_data=currency.slug
+            )
+        )
+    await client.close_session()
+
     kb.row(
-        InlineKeyboardButton(text=get_btn_text(cmc_ids['btc'], btc_data), callback_data='btc')
-    )
-    kb.row(
-        InlineKeyboardButton(text=get_btn_text(cmc_ids['eth'], eth_data), callback_data='eth')
-    )
-    kb.row(
-        InlineKeyboardButton(text="Reload", callback_data='rel')
+        InlineKeyboardButton(
+            text=f"Reload",
+            callback_data='rel'
+        )
     )
 
-    return kb.as_markup()
+    if reload or back:
+        await message.edit_media(
+            media=InputMediaPhoto(
+                media=image,
+                caption=caption
+            ),
+            reply_markup=kb.as_markup()
+        )
+    else:
+        await message.answer_photo(
+            photo=image,
+            caption=caption,
+            reply_markup=kb.as_markup()
+        )
