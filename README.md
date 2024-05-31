@@ -1,6 +1,6 @@
 # aiogram crypto bot
 
-telegram bot for checking current cryptocurrencies(bitcoin, ethereum) price and percentage price changing in periods(1h, 24h, 7d, 30d)
+telegram bot for checking current cryptocurrencies(bitcoin, ethereum, solana) price and percentage price changing in periods(1h, 24h, 7d, 30d)
 
 ## how to run
 
