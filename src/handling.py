@@ -19,6 +19,10 @@ async def h_btc(callback: CallbackQuery):
 async def h_eth(callback: CallbackQuery):
     await currencies[1].periods_menu(callback.message)
 
+@r.callback_query(F.data == 'solana')
+async def h_eth(callback: CallbackQuery):
+    await currencies[2].periods_menu(callback.message)
+
 @r.callback_query(F.data == 'back')
 async def h_reload(callback: CallbackQuery):
     await menu(callback.message, back=True)

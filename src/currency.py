@@ -6,7 +6,7 @@ from cmc_api_client import CMCAPIClient
 
 rounded = lambda x: round(x, 2)
 
-periods = ['1h', '24h', '7d', '30d']
+periods_rows = [['1h', '24h'], ['7d', '30d']]
 
 base_image = "https://s2.coinmarketcap.com/static/img/coins/128x128"
 base_caption = "percentage price changing in periods of"
@@ -41,9 +41,10 @@ class Currency(BaseCurrency):
         kb.row(
             InlineKeyboardButton(text=f"Current price: {rounded(self.quote['USD']['price'])}$", callback_data='price')
         )
-        for period in periods:
+        for periods_row in periods_rows:
             kb.row(
-                InlineKeyboardButton(text=f"{period}: {rounded(self.quote['USD'][f'percent_change_{period}'])}%", callback_data=str(period))
+                InlineKeyboardButton(text=f"{periods_row[0]}: {rounded(self.quote['USD'][f'percent_change_{periods_row[0]}'])}%", callback_data=str(periods_row[0])),
+                InlineKeyboardButton(text=f"{periods_row[1]}: {rounded(self.quote['USD'][f'percent_change_{periods_row[1]}'])}%", callback_data=str(periods_row[1]))
             )
         kb.row(
             InlineKeyboardButton(text="Back", callback_data='back')
@@ -58,8 +59,9 @@ class Currency(BaseCurrency):
         )
 
 currencies = [
-    Currency(1),
-    Currency(1027)
+    Currency(1), # bitcoin
+    Currency(1027), # ethereum
+    Currency(5426) # solana
 ]
 
 async def update_currencies():
