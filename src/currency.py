@@ -42,10 +42,12 @@ class Currency(BaseCurrency):
             InlineKeyboardButton(text=f"Current price: {rounded(self.quote['USD']['price'])}$", callback_data='price')
         )
         for periods_row in periods_rows:
-            kb.row(
-                InlineKeyboardButton(text=f"{periods_row[0]}: {rounded(self.quote['USD'][f'percent_change_{periods_row[0]}'])}%", callback_data=str(periods_row[0])),
-                InlineKeyboardButton(text=f"{periods_row[1]}: {rounded(self.quote['USD'][f'percent_change_{periods_row[1]}'])}%", callback_data=str(periods_row[1]))
-            )
+            row = []
+            for period in periods_row:
+                row.append(
+                    InlineKeyboardButton(text=f"{period}: {rounded(self.quote['USD'][f'percent_change_{period}'])}%", callback_data=str(period))
+                )
+            kb.row(*row)
         kb.row(
             InlineKeyboardButton(text="Back", callback_data='back')
         )
