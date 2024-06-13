@@ -5,12 +5,19 @@ telegram bot for checking current cryptocurrencies(bitcoin, ethereum, solana) pr
 ## how to run
 
 - rename `.env.dist` to `.env` and fill in the appropriate fields
+
+### pip
+
+- install dependencies: `pip install -r requirements.txt`
+- run `src/main.py`: `python src/main.py`
+
+### poetry
+
 - install poetry: `pip install poetry`
 - install dependencies: `poetry install`
 - run `src/main.py` in poetry venv: `poetry run python src/main.py`
 
 ### docker
 
-- rename `.env.dist` to `.env` and fill in the appropriate fields
 - build image: `docker build . --tag {tag}`
 - run image: `docker run {tag}`
