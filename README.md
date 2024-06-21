@@ -19,5 +19,7 @@ telegram bot for checking current cryptocurrencies(bitcoin, ethereum, solana) pr
 
 ### docker
 
+using poetry
+
 - build image: `docker build . --tag {tag}`
 - run image: `docker run {tag}`

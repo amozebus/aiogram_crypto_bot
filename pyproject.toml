@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "aiogram-crypto-bot"
 version = "0.1.0"
-description = "telegram bot for checking cryptocurrencies(bitcoin, ethereum) price and percentage price changing in periods"
+description = "telegram bot for checking cryptocurrencies(bitcoin, ethereum, solana) price and percentage price changing in periods"
 authors = ["amozebus <amozebus@gmail.com>"]
 readme = "README.md"
 
